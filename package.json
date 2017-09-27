@@ -1,37 +1,54 @@
 {
-  "name": "spatialite",
-  "description": "SpatiaLite for node",
-  "version": "0.1.0",
-  "homepage": "http://github.com/zhm/node-spatialite",
+  "name": "spatialite-bin",
+  "description": "SpatiaLite for node with hosted binaries",
+  "version": "0.1.1",
+  "homepage": "http://github.com/nbuchanan/node-spatialite",
   "author": {
     "name": "Zac McCormick",
     "url": "http://github.com/zhm",
     "email": "zac.mccormick@gmail.com"
   },
   "contributors": [
-    "Zac McCormick <zac.mccormick@gmail.com>"
+    "Zac McCormick <zac.mccormick@gmail.com>",
+    "Nick Buchanan <nbuchanan@gmail.com>"
   ],
   "repository": {
     "type": "git",
-    "url": "git://github.com/zhm/node-spatialite.git"
+    "url": "git://github.com/nbuchanan/node-spatialite.git"
+  },
+  "binary": {
+    "host": "https://asaspades-builds.s3.amazonaws.com",
+    "package_name": "{node_abi}-{platform}-{arch}.tar.gz",
+    "module_name": "spatialite-bin",
+    "module_path": "./lib/binding/{node_abi}-{platform}-{arch}",
+    "remote_path": "./{module_name}/v{version}/{toolset}/"
   },
   "dependencies": {
+    "nan": "2.x",
+    "node-pre-gyp": "0.6.x",
     "sqlite3": "*"
   },
+  "bundledDependencies": [ "node-pre-gyp" ],
   "devDependencies": {
+    "aws-sdk": "2.x",
     "coffee-script": "*",
-    "underscore": "*",
+    "expresso": "*",
     "mocha": "*",
+    "pkg": "4.2.3",
+    "rimraf": "2.6.1",
     "should": "*",
     "step": "0.0.4",
-    "expresso": "*"
+    "underscore": "*"
   },
   "engines": {
     "node": ">= 0.6.13"
   },
   "scripts": {
-    "test": "make test"
+    "test": "make test",
+    "build": "node-gyp configure build",
+    "install": "node-pre-gyp install --fallback-to-build",
+    "prepublish": "npm ls"
   },
-  "licenses": [{ "type": "BSD" }],
+  "license": "0BSD",
   "main": "./lib/spatialite"
 }
